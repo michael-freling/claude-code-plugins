@@ -1,20 +1,21 @@
 ---
 name: frontend-design-engineer
-description: Use this agent when you need to create detailed frontend implementation designs without writing code. This agent explores the codebase, identifies reusable components, and produces implementation plans focusing on component structure, state management, and integration patterns.
+description: |
+  Use this agent when you need to create detailed frontend implementation designs without writing code. This agent explores the codebase, identifies reusable components, and produces implementation plans focusing on component structure, state management, and integration patterns.
 
-Examples:
+  Examples:
 
-  Example 1:
-  Context: User needs frontend design for a new feature.
-  user: "Create the detailed frontend design for the user settings page"
-  assistant: "I'll use the frontend-design-engineer agent to explore the codebase, identify reusable components, and create a detailed implementation design."
-  [launches frontend-design-engineer agent via Task tool]
+    Example 1:
+    Context: User needs frontend design for a new feature.
+    user: "Create the detailed frontend design for the user settings page"
+    assistant: "I'll use the frontend-design-engineer agent to explore the codebase, identify reusable components, and create a detailed implementation design."
+    [launches frontend-design-engineer agent via Task tool]
 
-  Example 2:
-  Context: User wants component architecture planning.
-  user: "Design the frontend architecture for our real-time notifications feature"
-  assistant: "I'll launch the frontend-design-engineer agent to analyze existing patterns and design the component architecture, state management, and data flow."
-  [launches frontend-design-engineer agent via Task tool]
+    Example 2:
+    Context: User wants component architecture planning.
+    user: "Design the frontend architecture for our real-time notifications feature"
+    assistant: "I'll launch the frontend-design-engineer agent to analyze existing patterns and design the component architecture, state management, and data flow."
+    [launches frontend-design-engineer agent via Task tool]
 model: opus
 ---
 

@@ -1,20 +1,21 @@
 ---
 name: backend-design-engineer
-description: Use this agent when you need to create detailed backend implementation designs without writing code. This agent explores the codebase, identifies reusable modules, and produces implementation plans focusing on performance, testability, and code readability.
+description: |
+  Use this agent when you need to create detailed backend implementation designs without writing code. This agent explores the codebase, identifies reusable modules, and produces implementation plans focusing on performance, testability, and code readability.
 
-Examples:
+  Examples:
 
-  Example 1:
-  Context: User needs backend design for a new service.
-  user: "Create the detailed backend design for the order processing service"
-  assistant: "I'll use the backend-design-engineer agent to explore the codebase, identify reusable modules, and design the implementation with focus on performance and testability."
-  [launches backend-design-engineer agent via Task tool]
+    Example 1:
+    Context: User needs backend design for a new service.
+    user: "Create the detailed backend design for the order processing service"
+    assistant: "I'll use the backend-design-engineer agent to explore the codebase, identify reusable modules, and design the implementation with focus on performance and testability."
+    [launches backend-design-engineer agent via Task tool]
 
-  Example 2:
-  Context: User wants module architecture planning.
-  user: "Design the backend architecture for real-time event processing"
-  assistant: "I'll launch the backend-design-engineer agent to analyze existing patterns and design the module structure, data flow, and error handling approach."
-  [launches backend-design-engineer agent via Task tool]
+    Example 2:
+    Context: User wants module architecture planning.
+    user: "Design the backend architecture for real-time event processing"
+    assistant: "I'll launch the backend-design-engineer agent to analyze existing patterns and design the module structure, data flow, and error handling approach."
+    [launches backend-design-engineer agent via Task tool]
 model: opus
 ---
 

@@ -1,26 +1,27 @@
 ---
 name: software-architect
-description: Use this agent when you need to design system architecture including API schemas (HTTP/gRPC), database table schemas, and security architecture. This agent focuses on pure technical design WITHOUT implementation code or work stream planning.
+description: |
+  Use this agent when you need to design system architecture including API schemas (HTTP/gRPC), database table schemas, and security architecture. This agent focuses on pure technical design WITHOUT implementation code or work stream planning.
 
-Examples:
+  Examples:
 
-  Example 1:
-  Context: User needs API design for a new service.
-  user: "Design the API for our payment processing service"
-  assistant: "I'll use the software-architect agent to design the API schema, including endpoints, request/response formats, and security considerations."
-  [launches software-architect agent via Task tool]
+    Example 1:
+    Context: User needs API design for a new service.
+    user: "Design the API for our payment processing service"
+    assistant: "I'll use the software-architect agent to design the API schema, including endpoints, request/response formats, and security considerations."
+    [launches software-architect agent via Task tool]
 
-  Example 2:
-  Context: User needs database schema design.
-  user: "Design the database schema for multi-tenant user management"
-  assistant: "I'll launch the software-architect agent to create table schemas, relationships, and security architecture for the multi-tenant system."
-  [launches software-architect agent via Task tool]
+    Example 2:
+    Context: User needs database schema design.
+    user: "Design the database schema for multi-tenant user management"
+    assistant: "I'll launch the software-architect agent to create table schemas, relationships, and security architecture for the multi-tenant system."
+    [launches software-architect agent via Task tool]
 
-  Example 3:
-  Context: User needs system architecture design.
-  user: "How should we structure the new inventory management system?"
-  assistant: "I'll use the software-architect agent to investigate the current architecture and design a solution with proper API and database schemas."
-  [launches software-architect agent via Task tool]
+    Example 3:
+    Context: User needs system architecture design.
+    user: "How should we structure the new inventory management system?"
+    assistant: "I'll use the software-architect agent to investigate the current architecture and design a solution with proper API and database schemas."
+    [launches software-architect agent via Task tool]
 model: opus
 ---
 

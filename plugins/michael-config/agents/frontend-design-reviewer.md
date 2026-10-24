@@ -1,20 +1,21 @@
 ---
 name: frontend-design-reviewer
-description: Use this agent when you need to review frontend implementation designs for pattern consistency, reusability, performance, and testability.
+description: |
+  Use this agent when you need to review frontend implementation designs for pattern consistency, reusability, performance, and testability.
 
-Examples:
+  Examples:
 
-  Example 1:
-  Context: User has completed a frontend design.
-  user: "Review the frontend design for the settings page"
-  assistant: "I'll use the frontend-design-reviewer agent to review the design for pattern consistency and reusability."
-  [launches frontend-design-reviewer agent via Task tool]
+    Example 1:
+    Context: User has completed a frontend design.
+    user: "Review the frontend design for the settings page"
+    assistant: "I'll use the frontend-design-reviewer agent to review the design for pattern consistency and reusability."
+    [launches frontend-design-reviewer agent via Task tool]
 
-  Example 2:
-  Context: User wants feedback on component architecture.
-  user: "Is this component architecture appropriate?"
-  assistant: "I'll launch the frontend-design-reviewer agent to analyze the component design and provide feedback."
-  [launches frontend-design-reviewer agent via Task tool]
+    Example 2:
+    Context: User wants feedback on component architecture.
+    user: "Is this component architecture appropriate?"
+    assistant: "I'll launch the frontend-design-reviewer agent to analyze the component design and provide feedback."
+    [launches frontend-design-reviewer agent via Task tool]
 model: opus
 ---
 

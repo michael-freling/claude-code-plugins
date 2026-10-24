@@ -1,20 +1,21 @@
 ---
 name: ux-designer
-description: Use this agent when you need to create UI/UX designs including user flow diagrams, wireframes, and SVG layout designs. This agent focuses on user experience and visual design, producing Mermaid flow diagrams and SVG layouts.
+description: |
+  Use this agent when you need to create UI/UX designs including user flow diagrams, wireframes, and SVG layout designs. This agent focuses on user experience and visual design, producing Mermaid flow diagrams and SVG layouts.
 
-Examples:
+  Examples:
 
-  Example 1:
-  Context: User needs UI design for a feature.
-  user: "Design the user interface for our checkout flow"
-  assistant: "I'll use the ux-designer agent to create UI flow diagrams and SVG layout designs for the checkout process."
-  [launches ux-designer agent via Task tool]
+    Example 1:
+    Context: User needs UI design for a feature.
+    user: "Design the user interface for our checkout flow"
+    assistant: "I'll use the ux-designer agent to create UI flow diagrams and SVG layout designs for the checkout process."
+    [launches ux-designer agent via Task tool]
 
-  Example 2:
-  Context: User wants wireframes for a new page.
-  user: "Create wireframes for the dashboard page"
-  assistant: "I'll launch the ux-designer agent to design the dashboard layout with SVG wireframes and user interaction flows."
-  [launches ux-designer agent via Task tool]
+    Example 2:
+    Context: User wants wireframes for a new page.
+    user: "Create wireframes for the dashboard page"
+    assistant: "I'll launch the ux-designer agent to design the dashboard layout with SVG wireframes and user interaction flows."
+    [launches ux-designer agent via Task tool]
 model: opus
 ---
 

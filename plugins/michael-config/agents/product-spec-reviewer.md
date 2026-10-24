@@ -1,20 +1,21 @@
 ---
 name: product-spec-reviewer
-description: Use this agent when you need to review product specifications, requirements documents, or user stories for completeness, clarity, and feasibility.
+description: |
+  Use this agent when you need to review product specifications, requirements documents, or user stories for completeness, clarity, and feasibility.
 
-Examples:
+  Examples:
 
-  Example 1:
-  Context: User has completed a product specification.
-  user: "Review the product spec I just created"
-  assistant: "I'll use the product-spec-reviewer agent to review the specification for completeness, clarity, and feasibility."
-  [launches product-spec-reviewer agent via Task tool]
+    Example 1:
+    Context: User has completed a product specification.
+    user: "Review the product spec I just created"
+    assistant: "I'll use the product-spec-reviewer agent to review the specification for completeness, clarity, and feasibility."
+    [launches product-spec-reviewer agent via Task tool]
 
-  Example 2:
-  Context: User wants feedback on requirements.
-  user: "Are these user stories complete?"
-  assistant: "I'll launch the product-spec-reviewer agent to analyze the user stories and provide feedback."
-  [launches product-spec-reviewer agent via Task tool]
+    Example 2:
+    Context: User wants feedback on requirements.
+    user: "Are these user stories complete?"
+    assistant: "I'll launch the product-spec-reviewer agent to analyze the user stories and provide feedback."
+    [launches product-spec-reviewer agent via Task tool]
 model: opus
 ---
 
