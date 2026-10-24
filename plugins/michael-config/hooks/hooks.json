@@ -1,0 +1,15 @@
+{
+  "description": "Ships this plugin's project-level instructions (git worktrees for PR work) into every session, since a CLAUDE.md is not distributed to plugin installers.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/session-context.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

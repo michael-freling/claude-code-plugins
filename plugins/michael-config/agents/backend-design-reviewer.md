@@ -1,20 +1,21 @@
 ---
 name: backend-design-reviewer
-description: Use this agent when you need to review backend implementation designs for scalability, maintainability, testability, performance, and security.
+description: |
+  Use this agent when you need to review backend implementation designs for scalability, maintainability, testability, performance, and security.
 
-Examples:
+  Examples:
 
-  Example 1:
-  Context: User has completed a backend design.
-  user: "Review the backend design for the order service"
-  assistant: "I'll use the backend-design-reviewer agent to review the design for scalability, testability, and performance."
-  [launches backend-design-reviewer agent via Task tool]
+    Example 1:
+    Context: User has completed a backend design.
+    user: "Review the backend design for the order service"
+    assistant: "I'll use the backend-design-reviewer agent to review the design for scalability, testability, and performance."
+    [launches backend-design-reviewer agent via Task tool]
 
-  Example 2:
-  Context: User wants feedback on module architecture.
-  user: "Is this service architecture appropriate?"
-  assistant: "I'll launch the backend-design-reviewer agent to analyze the module design and provide feedback."
-  [launches backend-design-reviewer agent via Task tool]
+    Example 2:
+    Context: User wants feedback on module architecture.
+    user: "Is this service architecture appropriate?"
+    assistant: "I'll launch the backend-design-reviewer agent to analyze the module design and provide feedback."
+    [launches backend-design-reviewer agent via Task tool]
 model: opus
 ---
 

@@ -1,20 +1,21 @@
 ---
 name: product-manager
-description: Use this agent when you need to write product requirements, user stories, and product design documents. This agent focuses on WHAT the product should do and WHY, without technical implementation details, UI mockups, or API specifications.
+description: |
+  Use this agent when you need to write product requirements, user stories, and product design documents. This agent focuses on WHAT the product should do and WHY, without technical implementation details, UI mockups, or API specifications.
 
-Examples:
+  Examples:
 
-  Example 1:
-  Context: User needs to define a new feature.
-  user: "We need to add a subscription billing system"
-  assistant: "I'll use the product-manager agent to create a product design document covering user stories, requirements, and success metrics."
-  [launches product-manager agent via Task tool]
+    Example 1:
+    Context: User needs to define a new feature.
+    user: "We need to add a subscription billing system"
+    assistant: "I'll use the product-manager agent to create a product design document covering user stories, requirements, and success metrics."
+    [launches product-manager agent via Task tool]
 
-  Example 2:
-  Context: User wants to document product requirements.
-  user: "Document the requirements for our user onboarding flow"
-  assistant: "I'll launch the product-manager agent to create comprehensive product requirements focusing on user needs and goals."
-  [launches product-manager agent via Task tool]
+    Example 2:
+    Context: User wants to document product requirements.
+    user: "Document the requirements for our user onboarding flow"
+    assistant: "I'll launch the product-manager agent to create comprehensive product requirements focusing on user needs and goals."
+    [launches product-manager agent via Task tool]
 model: opus
 ---
 

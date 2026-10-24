@@ -1,20 +1,21 @@
 ---
 name: ux-design-reviewer
-description: Use this agent when you need to review UX designs for usability, accessibility, consistency, and completeness.
+description: |
+  Use this agent when you need to review UX designs for usability, accessibility, consistency, and completeness.
 
-Examples:
+  Examples:
 
-  Example 1:
-  Context: User has completed a UX design.
-  user: "Review the UX design for the checkout flow"
-  assistant: "I'll use the ux-design-reviewer agent to review the design for usability, accessibility, and consistency."
-  [launches ux-design-reviewer agent via Task tool]
+    Example 1:
+    Context: User has completed a UX design.
+    user: "Review the UX design for the checkout flow"
+    assistant: "I'll use the ux-design-reviewer agent to review the design for usability, accessibility, and consistency."
+    [launches ux-design-reviewer agent via Task tool]
 
-  Example 2:
-  Context: User wants feedback on wireframes.
-  user: "Are these wireframes complete?"
-  assistant: "I'll launch the ux-design-reviewer agent to analyze the wireframes and provide feedback."
-  [launches ux-design-reviewer agent via Task tool]
+    Example 2:
+    Context: User wants feedback on wireframes.
+    user: "Are these wireframes complete?"
+    assistant: "I'll launch the ux-design-reviewer agent to analyze the wireframes and provide feedback."
+    [launches ux-design-reviewer agent via Task tool]
 model: opus
 ---
 
