@@ -37,3 +37,22 @@
 - Never pass `discard_changes: true` unless the user says to discard that work.
 - `git worktree prune` clears registrations whose directory is gone. It is safe
   and never deletes a live worktree.
+
+## Writing for humans
+
+- Everything a human reads — chat replies, commit messages, PR descriptions,
+  review comments — leads with the answer or the conclusion. No preamble, no
+  restating the request.
+- Say what changed and why. Never re-list what the reader already has on screen,
+  in the diff, or in the file they just opened.
+- No inventories, no status tables, no per-file enumeration unless asked for one.
+- Quote the one line of command, validator, or test output that matters. Paste
+  nothing else.
+- Prose for explanation. A table only for a real lookup with repeated keys.
+- Flag what the reader must act on, and cut the rest.
+- Length follows the change: a one-line fix gets one line. Routine work does not
+  earn headings.
+- No praise sections, no "what went well", no restating the plan back as a
+  summary.
+- This applies to subagent reports to the main thread. That report becomes the
+  user-facing summary, so padding in it reaches the user.

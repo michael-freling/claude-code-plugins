@@ -36,6 +36,18 @@ Project instruction (michael-config plugin) — git worktrees for pull-request w
   deletes a live worktree.
 - This instruction does not authorize creating a pull request. New PRs still
   require an explicit request from the user — see the github-pr skill.
+
+Project instruction (michael-config plugin) — writing for humans:
+
+- Chat replies, commit messages, PR descriptions and review comments lead with
+  the answer, then say what changed and why.
+- Do not re-list what the reader can already see in the diff or on screen: no
+  inventories, no status tables, no per-file enumeration unless asked, and no
+  pasted command, validator, or test output beyond the line that matters.
+- Prose over tables for explanation. Flag what the reader must act on and cut
+  the rest. Length follows the size of the change.
+- Subagent reports to the main thread follow the same rule, because that report
+  becomes the user-facing summary.
 TXT
 )
 
