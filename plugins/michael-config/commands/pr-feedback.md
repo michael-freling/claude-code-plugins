@@ -61,26 +61,25 @@ Identify any conflicting feedback (two reviewers suggesting opposite things).
 
 ### Phase 3: Present Plan to User
 
-Present the categorized feedback and proposed approach:
+Present the plan at the size the feedback warrants. For a handful of comments
+that is a flat list, one line each — where, and what you will do:
 
 ```
-## Feedback Summary
+Addressing N comments on #<PR>:
+- [file:line] <what the reviewer asked> — <the fix>
+- [file:line] <what the reviewer asked> — <the fix>
 
-### Must Fix (X items)
-1. [file:line] Description of issue - Proposed fix
-2. ...
-
-### Should Fix (X items)
-1. [file:line] Description - Proposed fix
-2. ...
-
-### Discussion Needed (X items)
-1. [file:line] Question/concern - Options for user to decide
-2. ...
-
-### Conflicting Feedback (if any)
-- Reviewer A says X, Reviewer B says Y - Need user decision
+Needs your call: [file:line] <the question, and the options>
 ```
+
+Group under `Must fix` / `Should fix` / `Discussion` headings only once a flat
+list stops being readable — roughly ten comments or more. Never emit an empty
+heading or an item count, and never pad a short plan into sections.
+
+Two things are always called out, whatever the size:
+
+- anything needing a user decision, with the options spelled out
+- conflicting feedback — reviewer A says X, reviewer B says Y
 
 **Wait for user approval before implementing.** Resolve any discussions or conflicts first.
 
@@ -138,7 +137,7 @@ Reply format:
 Group related changes into logical commits:
 - Each commit should address a coherent set of related feedback
 - Reference feedback in commit messages where relevant
-- Write clear commit messages describing the "why"
+- Write clear commit messages describing the "why", in a few lines
 
 ```bash
 git add <files>
@@ -147,11 +146,15 @@ Address review feedback: <summary>
 
 <details of changes>
 
-Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 EOF
 )"
 git push
 ```
+
+Take the `Co-Authored-By` trailer from the session's own attribution
+instructions rather than copying the model name above — a version baked into
+this template goes stale.
 
 ### Phase 7: Fix CI Until Green
 
