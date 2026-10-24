@@ -1,11 +1,15 @@
 ---
 description: Review open PRs with passing CI - inline comments for issues, resolves addressed feedback
-allowed-tools: ["Bash", "Read", "Grep", "Glob"]
+allowed-tools: ["Bash", "Read", "Grep", "Glob", "Agent"]
 ---
 
 # PR Review Workflow
 
 Review open pull requests in the current repository that have passing CI checks.
+
+The main thread selects the PRs, fetches the diffs, and posts the comments. The
+review analysis itself is **delegated to a subagent** — see the
+`subagent-routing` skill for the full task-type table.
 
 ## Phase 1: Find PRs to Review
 
@@ -60,7 +64,7 @@ If Claude previously reviewed and new commits exist since that review:
      ```
    - Or use the GraphQL API to resolve the review thread if available
 
-## Phase 4: Analyze Changes
+## Phase 4: Analyze Changes — Dispatch a Subagent and Wait
 
 Get the full diff for the PR:
 
@@ -68,9 +72,28 @@ Get the full diff for the PR:
 gh pr diff <PR_NUMBER>
 ```
 
-Read the changed files for full context using the Read tool.
+Do not perform the review analysis in the main thread. **Dispatch** it with the
+`Agent` tool and wait for the result:
 
-Analyze for ALL code quality aspects:
+| PR touches | Agent |
+|------------|-------|
+| Application code, tests, config, docs | `michael-config:code-reviewer` |
+| A GitHub Actions workflow | `michael-config:github-actions-workflow-engineer` |
+| Kubernetes manifests, Kustomize, Helm | `michael-config:kubernetes-engineer` |
+| An architecture, API, or DB schema change | `michael-config:architecture-reviewer` |
+
+A PR that spans several of these takes one subagent per area, dispatched
+together since the areas are independent.
+
+The subagent's prompt is the only context it gets. Give it the PR number, the
+diff, the paths of the changed files to read for full context, and the aspect
+list below. Require it to report every finding as `file:line` plus a concrete
+suggestion, since Phase 5 posts each one as an inline comment at that location.
+
+Then **wait** for its findings. Do not review the same diff in parallel, and do
+not re-derive its findings afterwards — Phase 5 posts what it reported.
+
+The subagent analyzes for ALL code quality aspects:
 - **Correctness**: Logic errors, bugs, edge cases
 - **Readability**: Clear naming, code organization, complexity
 - **Maintainability**: Code structure, coupling, cohesion
@@ -140,6 +163,7 @@ When Claude is reviewing PRs it helped create:
 5. **Comprehensive review** - Cover all code quality aspects, not just bugs
 6. **Clear prefix** - All inline comments start with `[Claude Code Review]`
 7. **Be specific** - Include line numbers and concrete suggestions
+8. **Delegate the analysis** - Dispatch a reviewer subagent and wait for its findings; the main thread posts them, it does not derive them
 
 ## Example Workflow
 

@@ -6,7 +6,12 @@ allowed-tools: ["*"]
 
 # PR Feedback
 
-Address reviewer feedback on a pull request by reading comments, implementing fixes, and replying to reviewers.
+Address reviewer feedback on a pull request by reading comments, dispatching
+the fixes to a subagent, and replying to reviewers.
+
+The main thread gathers the feedback, routes it, replies, commits, and drives CI.
+The fixes themselves are implemented by a subagent — see the `subagent-routing`
+skill for the full task-type table.
 
 $ARGUMENTS
 
@@ -79,14 +84,36 @@ Present the categorized feedback and proposed approach:
 
 **Wait for user approval before implementing.** Resolve any discussions or conflicts first.
 
-### Phase 4: Implement Changes
+### Phase 4: Implement Changes — Dispatch a Subagent and Wait
 
-Address feedback in logical order (group related changes):
+Do not implement the fixes in the main thread. **Dispatch** them with the
+`Agent` tool and wait for the result.
 
-For each piece of feedback:
-1. Read the relevant code for full context
-2. Implement the requested change
-3. Verify the fix is correct
+Route by what the feedback touches:
+
+| Feedback touches | Agent |
+|------------------|-------|
+| Application code, tests, config, docs | `michael-config:code-developer` |
+| A GitHub Actions workflow | `michael-config:github-actions-workflow-engineer` |
+| Kubernetes manifests, Kustomize, Helm | `michael-config:kubernetes-engineer` |
+
+Dispatch one subagent per coherent group of related feedback, not one per
+comment. Its prompt is the only context it gets, so include:
+
+- the approved plan from Phase 3
+- each comment's file, line, and the change requested, quoted
+- the decisions already made on any discussion or conflicting items
+- the exact files in scope, and what it must not touch
+- the instruction to read the relevant code for full context before changing it,
+  and to verify each fix
+
+Then **wait**. Do not fix the same comments in parallel, and do not redo the
+subagent's work afterwards. When it reports back, note which comments it
+addressed and how — Phase 5 replies need that detail, and the user does not see
+the subagent's own report.
+
+If a fix comes back incomplete or wrong, re-dispatch to the same agent with the
+failure detail rather than patching it up in the main thread.
 
 Group related changes together rather than addressing comments in isolation.
 
@@ -144,11 +171,12 @@ Monitor and fix CI after pushing:
 ## Key Rules
 
 1. **Always present plan first** - Get user approval before implementing changes
-2. **Reply to individual comments** - Use threaded replies, not general PR comments
-3. **Prioritize must-fix items** - Address critical issues before nice-to-have improvements
-4. **Group related changes** - Commit related feedback fixes together
-5. **Handle conflicts explicitly** - If reviewers disagree, ask user to decide
-6. **Keep CI green** - Don't leave PR with failing checks
+2. **Delegate the implementation** - Dispatch a subagent for the fixes and wait for its result; never implement in the main thread
+3. **Reply to individual comments** - Use threaded replies, not general PR comments
+4. **Prioritize must-fix items** - Address critical issues before nice-to-have improvements
+5. **Group related changes** - Commit related feedback fixes together
+6. **Handle conflicts explicitly** - If reviewers disagree, ask user to decide
+7. **Keep CI green** - Don't leave PR with failing checks
 
 ## Example Commands
 
