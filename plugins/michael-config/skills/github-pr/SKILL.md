@@ -242,23 +242,57 @@ git diff origin/main...HEAD --stat
 
 ```markdown
 ## Summary
-- 2-4 bullet points describing the main changes
+
+<One or two sentences on why this change exists — what was broken, missing, or
+in the way. This is the first thing the reviewer reads.>
+
+- <A user-visible effect of the change, one line>
+- <Another, one line>
 
 ## Test Plan
-- How the change was verified (tests run, linters, manual checks)
+
+- <How it was verified — name the checks that were run>
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ```
 
-Guidelines:
+**Length budget: ~150 words, under about 20 lines, for a normal PR.** A body
+that runs longer needs a *reason* — a breaking change, a migration the reviewer
+has to perform, a non-obvious decision that needs defending. "The branch
+changed a lot" is not a reason. A bigger diff means fewer, higher-level
+bullets, not a longer list.
 
-- Read all commits to understand the full scope of changes
-- Group related changes together in the description
-- Focus on the "why" not just the "what"
-- Include breaking changes prominently if any
-- Always include the
-  `🤖 Generated with [Claude Code](https://claude.com/claude-code)` trailer
-- To link and auto-close associated issues, use the github-pr-link skill
+Write for a human reviewer who has not seen the branch and is about to read the
+diff. **The body explains why; the diff already shows what.**
+
+- **Lead with the why.** One or two sentences of motivation before any bullet.
+  The reader wants the problem, not an inventory of what was touched.
+- **Group by user-visible effect, not by file path.** Three or four bullets,
+  one line each, each naming something a user or an installer would notice.
+  Never organize the body around the branch's file or commit structure.
+- **Keep the Test Plan short.** A few lines on how the change was verified —
+  `make test` and the linters pass, the bug no longer reproduces. Name the
+  checks, not their results. One line is often right.
+- **Keep what the reviewer must act on**, however short the body gets: a
+  breaking change, called out prominently; a version bump; a command they have
+  to run after merging.
+
+Never put in the body:
+
+- per-file or per-directory enumeration (`foo.go` — added X; `bar.go` — ...)
+- a commit-by-commit list or table, or any commit SHAs
+- "N files changed", added/deleted line counts, or a diffstat — the PR page
+  already renders `git diff --stat`
+- a restatement of something the diff plainly shows
+- pasted validator, linter, or test output, transcripts, or command logs
+- a heading or numbered section per commit
+
+**Detail belongs in commit messages and code comments, not the PR body.**
+Reasoning about a particular hunk stays attached to that hunk, where it is
+still there a year from now. Read every commit to understand the scope — then
+leave that scope-level detail in the commits it came from.
+
+To link and auto-close associated issues, use the github-pr-link skill.
 
 ## Step 10a: Update Path (an OPEN PR already exists)
 
