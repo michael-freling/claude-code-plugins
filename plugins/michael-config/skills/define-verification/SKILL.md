@@ -1,19 +1,19 @@
 ---
 name: define-verification
-description: Write or update .claude/verification.yaml, the step-by-step workflow that proves a change in this repo actually works (build/test/lint and any deploy/runtime check). Use when that file doesn't exist yet, when the require-verification hook blocks completion or PR creation because no recipe is defined, or when the user wants to change how changes get verified here.
+description: Write or update .claude/verification.yaml, the step-by-step workflow that proves a change in this project actually works (build/test/lint and any deploy/runtime check). Use when that file doesn't exist yet, when the require-verification hook blocks completion or PR creation because no recipe is defined, or when the user wants to change how changes get verified here.
 allowed-tools: [Read, Write, Bash, AskUserQuestion]
 ---
 
 # Define Verification
 
-`.claude/verification.yaml` is this repo's one-time declaration of what
-"this change works" means. The `require-verification` hook
-(`.claude/settings.json`) blocks completion and `gh pr create` until that
+`.claude/verification.yaml` is this project's one-time declaration of what
+"this change works" means. The `require-verification` hook (wired in this
+plugin's `hooks/hooks.json`) blocks completion and `gh pr create` until that
 recipe has been run against the current commit and passed — so getting this
 file right matters more than getting it fast.
 
-Format reference: `.claude/VERIFICATION.md`. Read it before writing or
-editing the file — it has the exact field names, the three step types
+Format reference: `references/format.md`. Read it before writing or editing
+the file — it has the exact field names, the three step types
 (`run`/`poll`/`cleanup`) and their semantics, and the YAML subset the runner
 actually parses.
 
@@ -22,9 +22,9 @@ actually parses.
 1. Read it and show it to the user as-is.
 2. Ask what they want to change — add a step, adjust a timeout, fix a
    command — rather than starting over.
-3. Edit it, following the format in `.claude/VERIFICATION.md`.
+3. Edit it, following the format in `references/format.md`.
 4. Show the updated file and offer to run
-   `.claude/scripts/run-verification.sh` to confirm it still works.
+   `"$CLAUDE_PLUGIN_ROOT"/hooks/run-verification.sh` to confirm it still works.
 
 Do not re-ask the open-ended question below when a file already exists.
 
@@ -70,13 +70,13 @@ collapse everything into `run` steps just because it's simpler:
 - Give each step a short, specific `name` (used to identify it in failure
   output) — not "step 1".
 
-Write the file with a short comment header pointing at
-`.claude/VERIFICATION.md` for the full format, then the steps.
+Write the file with a short comment header pointing at `references/format.md`
+for the full format, then the steps.
 
 ## After writing
 
 Show the user the generated `.claude/verification.yaml` in full and ask them
 to confirm it actually matches what they described before relying on it.
-Mention they can run `.claude/scripts/run-verification.sh` now to try it, and
-that re-running this skill at any time edits the file in place rather than
-starting over.
+Mention they can run `"$CLAUDE_PLUGIN_ROOT"/hooks/run-verification.sh` now to
+try it, and that re-running this skill at any time edits the file in place
+rather than starting over.

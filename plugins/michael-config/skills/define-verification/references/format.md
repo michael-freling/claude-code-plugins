@@ -1,23 +1,24 @@
-# Verify Before Done
+# Verification Format
 
-This repo gates two things on proof, not on a self-report: an agent saying
-"I tested it" is not enough to stop or to open a PR here. Completion and PR
-creation are mechanically blocked (see the `require-verification` hook in
-`.claude/settings.json`) unless a declared verification workflow was actually
-run against the current code and passed.
+This plugin gates two things on proof, not on a self-report: an agent saying
+"I tested it" is not enough to stop or to open a PR in a project that opts
+in. Completion and PR creation are mechanically blocked (see the
+`require-verification` hook in this plugin's `hooks/hooks.json`) unless a
+declared verification workflow was actually run against the current code and
+passed.
 
 Three pieces make this work:
 
-- `.claude/verification.yaml` — **what** proves a change in this repo works.
-  Written once per repo, by a human answering the `define-verification`
-  skill's question in their own words. Absent until someone does that; see
-  below.
-- `.claude/scripts/run-verification.sh` — runs that recipe. Generic: it has
-  no idea what `command` strings mean, it just executes them and interprets
-  `type`.
-- `.claude/.verification-result.json` — the runner's output: proof the
-  recipe ran, against which commit, and whether it passed. Local, gitignored,
-  read by the hook.
+- `.claude/verification.yaml`, in the consuming project — **what** proves a
+  change there works. Written once per project, by a human answering the
+  `define-verification` skill's question in their own words. Absent until
+  someone does that; see below.
+- `hooks/run-verification.sh`, in this plugin — runs that recipe. Generic: it
+  has no idea what `command` strings mean, it just executes them and
+  interprets `type`. Invoke it as `"$CLAUDE_PLUGIN_ROOT"/hooks/run-verification.sh`.
+- `.claude/.verification-result.json`, in the consuming project — the
+  runner's output: proof the recipe ran, against which commit, and whether it
+  passed. Local, gitignored, read by the hook.
 
 ## Writing `.claude/verification.yaml`
 
@@ -76,9 +77,9 @@ dependency-free script rather than a full YAML library:
 
 ### Illustrative example
 
-Not this repo's actual recipe — just the shape, echoing the two cases that
-motivated having `poll` and `cleanup` at all (a CI-check wait, and an
-ArgoCD-style deploy-then-always-revert):
+Not a real recipe — just the shape, echoing the two cases that motivated
+having `poll` and `cleanup` at all (a CI-check wait, and an ArgoCD-style
+deploy-then-always-revert):
 
 ```yaml
 - name: build and unit test
@@ -115,8 +116,9 @@ ArgoCD-style deploy-then-always-revert):
 
 ## The result file
 
-`.claude/.verification-result.json`, written by the runner on every run,
-never committed (it's in `.gitignore`):
+`.claude/.verification-result.json`, in the consuming project, written by the
+runner on every run, never committed (it belongs in that project's
+`.gitignore`):
 
 ```json
 {"sha": "<git rev-parse HEAD at run time>", "timestamp": "<UTC ISO-8601>", "passed": true}
@@ -136,20 +138,21 @@ or, on failure:
 
 ## The gate
 
-`.claude/hooks/require-verification.sh`, wired to `Stop` and to `PreToolUse`
-on `Bash` calls shaped like `gh pr create`, blocks unless **all** of:
+This plugin's `hooks/require-verification.sh`, wired to `Stop` and to
+`PreToolUse` on `Bash` calls shaped like `gh pr create`, blocks unless **all**
+of:
 
-1. `.claude/.verification-result.json` exists.
+1. `.claude/.verification-result.json` exists in the consuming project.
 2. its `sha` equals the current `git rev-parse HEAD`.
 3. `git status --porcelain` is empty (a dirty tree means the recorded pass
    predates uncommitted changes, so it's stale).
 4. its `passed` is `true`.
 
-If `.claude/verification.yaml` itself doesn't exist yet, the hook allows
-unconditionally instead — there's nothing declared yet to run or gate
+If the consuming project has no `.claude/verification.yaml` yet, the hook
+allows unconditionally instead — there's nothing declared yet to run or gate
 against. Write it with the `define-verification` skill to turn the gate on.
 
 When blocked, the reason names which condition failed and, if the last run
 actually failed, the `failed_step` and its captured `output` — concrete
 signal to act on, not just "try again." Run
-`.claude/scripts/run-verification.sh` to produce a fresh result.
+`"$CLAUDE_PLUGIN_ROOT"/hooks/run-verification.sh` to produce a fresh result.

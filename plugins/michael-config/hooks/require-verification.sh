@@ -1,9 +1,10 @@
 #!/bin/bash
-# PreToolUse + Stop hook: block completion / PR creation unless this repo's
-# declared verification workflow (.claude/verification.yaml) was run against
-# the CURRENT code and passed. Full contract: .claude/VERIFICATION.md.
+# PreToolUse + Stop hook: block completion / PR creation unless the consuming
+# project's declared verification workflow (.claude/verification.yaml) was run
+# against the CURRENT code and passed. Full contract:
+# skills/define-verification/references/format.md in this plugin.
 #
-# Wired twice in .claude/settings.json:
+# Wired twice in hooks/hooks.json:
 #   - Stop: fires whenever the agent is about to finish responding.
 #   - PreToolUse, matcher "Bash": fires on every Bash call. The `matcher`
 #     field only matches tool name, not command content (same constraint
@@ -17,19 +18,20 @@
 # call's does not.
 #
 # Gate condition (the real check) -- block unless ALL of:
-#   1. .claude/.verification-result.json exists
+#   1. <project>/.claude/.verification-result.json exists
 #   2. its `sha` equals the current `git rev-parse HEAD`
 #   3. `git status --porcelain` is empty (a dirty tree means the recorded
 #      pass predates uncommitted changes, so it is stale)
 #   4. its `passed` field is `true`
 #
-# Deliberate scope narrowing: if .claude/verification.yaml does not exist,
-# this hook allows unconditionally instead of blocking. A repo opts into the
-# gate by declaring a recipe (the define-verification skill writes that
-# file); until it does, there is nothing to run and nothing to gate against,
-# and blocking every Stop event unconditionally -- including turns with no
-# code change at all -- would make the repo unusable rather than enforce
-# anything. See .claude/VERIFICATION.md.
+# Deliberate scope narrowing: if the consuming project has no
+# .claude/verification.yaml, this hook allows unconditionally instead of
+# blocking. A project opts into the gate by declaring a recipe (the
+# define-verification skill writes that file); until it does, there is
+# nothing to run and nothing to gate against, and blocking every Stop event
+# unconditionally -- including turns with no code change at all -- would
+# make every installing project unusable rather than enforce anything. See
+# skills/define-verification/references/format.md.
 #
 # stop_hook_active (present on Stop events only) is deliberately NOT used as
 # a bypass here. That field lets soft "reminder" hooks avoid re-blocking
@@ -46,14 +48,14 @@ set -uo pipefail
 input=$(cat)
 
 if ! command -v jq >/dev/null 2>&1; then
-  # Fail open rather than deadlock the repo if jq is unavailable.
+  # Fail open rather than deadlock the project if jq is unavailable.
   exit 0
 fi
 
 project_dir="${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null)}"
 yaml_file="$project_dir/.claude/verification.yaml"
 result_file="$project_dir/.claude/.verification-result.json"
-runner="$project_dir/.claude/scripts/run-verification.sh"
+runner="${CLAUDE_PLUGIN_ROOT}/hooks/run-verification.sh"
 
 # Not declared yet: nothing to gate against.
 if [ ! -f "$yaml_file" ]; then

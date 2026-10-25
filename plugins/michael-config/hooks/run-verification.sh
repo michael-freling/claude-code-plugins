@@ -1,7 +1,7 @@
 #!/bin/bash
-# Generic workflow runner for .claude/verification.yaml.
+# Generic workflow runner for a consuming project's .claude/verification.yaml.
 #
-# This script has no knowledge of this repo's build, test, lint, or deploy
+# This script has no knowledge of any project's build, test, lint, or deploy
 # tooling. It understands exactly three step `type`s and otherwise just
 # executes whatever `command` string a step declares, via `bash -c`:
 #
@@ -14,22 +14,24 @@
 #
 # The full .claude/verification.yaml format, and the
 # .claude/.verification-result.json contract this script writes, are
-# documented in .claude/VERIFICATION.md. Read that before changing either
-# shape -- the define-verification skill and the require-verification hook
-# both depend on it exactly.
+# documented in this plugin's skills/define-verification/references/format.md.
+# Read that before changing either shape -- the define-verification skill and
+# the require-verification hook both depend on it exactly.
 #
-# Usage:  .claude/scripts/run-verification.sh
+# Usage:  "$CLAUDE_PLUGIN_ROOT"/hooks/run-verification.sh
+#         (run from, or with CLAUDE_PROJECT_DIR pointed at, the project that
+#         declared .claude/verification.yaml)
 # Exit:   0 if the workflow passed, 1 if it failed, 2 on a setup error
 #         (missing verification.yaml, malformed YAML, missing jq/python3).
 #         On a setup error, no result file is written at all -- the hook
 #         treats a missing result file as "nothing recorded" either way.
 # The authoritative pass/fail record always lands in
-# .claude/.verification-result.json; the hook reads that file, not this
-# script's exit code.
+# .claude/.verification-result.json in the consuming project; the hook reads
+# that file, not this script's exit code.
 
 set -uo pipefail
 
-project_dir="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+project_dir="${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null)}"
 yaml_file="$project_dir/.claude/verification.yaml"
 result_file="$project_dir/.claude/.verification-result.json"
 
@@ -44,14 +46,15 @@ fi
 
 if [ ! -f "$yaml_file" ]; then
   echo "run-verification: $yaml_file does not exist." >&2
-  echo "Run the define-verification skill to describe this repo's verification workflow first." >&2
+  echo "Run the define-verification skill to describe this project's verification workflow first." >&2
   exit 2
 fi
 
 cd "$project_dir" || exit 2
 
 # --- Parse the restricted YAML subset into a JSON array of steps. ---------
-# See .claude/VERIFICATION.md for exactly what subset of YAML is supported.
+# See skills/define-verification/references/format.md in this plugin for
+# exactly what subset of YAML is supported.
 steps_json=$(python3 - "$yaml_file" <<'PYEOF'
 import sys, json, re
 
