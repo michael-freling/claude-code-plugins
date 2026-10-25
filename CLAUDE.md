@@ -38,6 +38,25 @@
 - `git worktree prune` clears registrations whose directory is gone. It is safe
   and never deletes a live worktree.
 
+## Distribution
+
+- This repo *is* a Claude Code plugin marketplace. Any capability added here —
+  skill, agent, command, or hook — must ship through the plugin (top-level
+  `agents/`, `commands/`, `skills/`, `hooks/hooks.json`), not as project-local
+  `.claude/` config. Project-local `.claude/` only governs sessions working
+  directly in this repo's own checkout; it never reaches a project that
+  installs the plugin.
+- Reference the plugin's own bundled files with `$CLAUDE_PLUGIN_ROOT`, not
+  `$CLAUDE_PROJECT_DIR` or a path relative to this repo's root — the latter
+  breaks once the plugin is installed somewhere else.
+- A capability's own code/definition lives in the plugin's distributable
+  paths. Per-project state it needs at runtime (e.g. a declared recipe file,
+  a result file) still belongs in whatever project the capability runs in,
+  under that project's own `.claude/` — written there by the skill or hook
+  when it runs, not shipped as part of the plugin.
+- Before opening a PR that touches `.claude-plugin/`, `agents/`, `commands/`,
+  `skills/`, or `hooks/`, run the `validate-plugin` skill.
+
 ## Writing for humans
 
 - Everything a human reads — chat replies, commit messages, PR descriptions,

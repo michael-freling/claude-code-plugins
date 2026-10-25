@@ -1,5 +1,5 @@
 {
-  "description": "Ships this plugin's project-level instructions (git worktrees for PR work) into every session, since a CLAUDE.md is not distributed to plugin installers.",
+  "description": "Ships this plugin's project-level instructions (git worktrees for PR work) into every session, since a CLAUDE.md is not distributed to plugin installers. Also gates completion and PR creation on a project's own declared .claude/verification.yaml workflow, when one exists.",
   "hooks": {
     "SessionStart": [
       {
@@ -7,6 +7,27 @@
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/session-context.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/require-verification.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/require-verification.sh"
           }
         ]
       }
