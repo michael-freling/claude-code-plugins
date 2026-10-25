@@ -3,3 +3,6 @@
 
 # Machine-local Claude Code settings (not shared)
 .claude/settings.local.json
+
+# Local verification run artifact (not committed)
+.claude/.verification-result.json
