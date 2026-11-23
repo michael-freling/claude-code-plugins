@@ -26,8 +26,9 @@ what makes it possible to review it later and keep, fix or delete it on evidence
 
 Skills use the `metadata` map that the Agent Skills format provides for custom keys.
 The other types reuse the same key so one search covers all of them. Claude Code
-ignores keys it does not know; run `claude plugin validate` on the plugin after adding
-one to confirm.
+ignores keys it does not know. The templates live under `templates/`, which
+`claude plugin validate` does not scan, so run it again once a config is copied into
+`skills/`, `rules/`, `agents/` or `commands/`.
 
 ## Choosing the type
 
