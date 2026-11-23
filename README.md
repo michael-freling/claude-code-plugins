@@ -112,8 +112,8 @@ Specialized agents for different tasks:
 ## Templates
 
 `plugins/michael-config/templates/claude-config/` has a template for each kind of
-config (skill, rule, agent, command, hook). Each records why the config exists, how to
-tell it works, and when to review it, so a new config can be judged on evidence later.
+config (skill, rule, agent, command, hook). Each has a `reason` field saying why the
+config was created, so it can be reviewed later.
 See its `README.md`.
 
 ## Design Workflow

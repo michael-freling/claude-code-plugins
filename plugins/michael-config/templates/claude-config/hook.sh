@@ -8,12 +8,6 @@
 #         Say why a hook is needed rather than an instruction in a skill or rule:
 #         a hook is the only option when the behaviour must not depend on Claude
 #         remembering it.
-# evidence: Where the problem was observed - a PR, issue, or session link.
-# success_criteria: The observable signal that it works, e.g. "zero pushes to main
-#         from agents in the next month" and how many times the hook fired.
-# created: YYYY-MM-DD
-# review_by: YYYY-MM-DD
-# status: active
 #
 # Contract: the hook payload arrives as JSON on stdin. Exit 0 to allow, exit 2 to
 # block and show stderr to Claude. Allow when the payload cannot be parsed: a hook

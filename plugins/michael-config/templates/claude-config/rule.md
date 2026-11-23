@@ -2,11 +2,6 @@
 paths: "**/*.example"
 metadata:
   reason: The problem or repeated mistake this rule exists to prevent, in one or two sentences. Say what went wrong without it.
-  evidence: Where the problem was observed - a PR, issue, or session link, or the count of times it happened.
-  success_criteria: The observable signal that it works, e.g. "no review comment about X in the next month".
-  created: YYYY-MM-DD
-  review_by: YYYY-MM-DD
-  status: active
 ---
 
 # Example rule title

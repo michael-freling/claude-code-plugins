@@ -1,9 +1,8 @@
 # Claude Code config templates
 
-Starting points for a new skill, rule, agent, command or hook. Each template carries
-the same `metadata` block (a header comment for hooks, which have no frontmatter) so
-every config records **why it exists** and **how to tell whether it works**. That is
-what makes it possible to review it later and keep, fix or delete it on evidence.
+Starting points for a new skill, rule, agent, command or hook. Each template has a
+`metadata.reason` field (a header comment for hooks, which have no frontmatter) saying
+**why the config was created**, so a later review can judge whether it is still needed.
 
 | To add a | Copy | To |
 | --- | --- | --- |
@@ -13,16 +12,11 @@ what makes it possible to review it later and keep, fix or delete it on evidence
 | command | `command.md` | `commands/<name>.md` |
 | hook | `hook.sh` | `hooks/<name>.sh`, then register it in `hooks/hooks.json` or `settings.json` |
 
-## The metadata block
+## `reason`
 
-| Field | What to write |
-| --- | --- |
-| `reason` | The problem or repeated mistake this prevents. Not what it contains. |
-| `evidence` | Where the problem was seen: a PR, issue or session link, or how often it happened. |
-| `success_criteria` | An observable signal that it works. Something you could check later. |
-| `created` | `YYYY-MM-DD`. |
-| `review_by` | `YYYY-MM-DD`, usually 1-3 months out. |
-| `status` | `active`, or `deprecated` once replaced (keep the file only while something still references it). |
+The problem or repeated mistake the config prevents, in one or two sentences. Say what
+went wrong without it, not what it contains. Nothing else is recorded: the date and
+author are in git history, and the PR that added the file is the place for evidence.
 
 Skills use the `metadata` map that the Agent Skills format provides for custom keys.
 The other types reuse the same key so one search covers all of them. Claude Code
@@ -42,11 +36,6 @@ If a rule is long or only matters for one task, make it a skill.
 
 ## Reviewing
 
-On or after `review_by`, check `success_criteria` against the `evidence`. Then:
-
-- **Keep** it and set a new `review_by` if the signal shows it works.
-- **Revise** it if the problem persists, because the wording or trigger is wrong.
-- **Delete** it if the problem stopped without it or it never triggers. An unused config
-  still costs context and misleads.
-
-To list what is due, search for the dates: `grep -rn "review_by:" plugins/`.
+To review a config, read its `reason` and ask whether that problem still happens. If it
+does not, or the config never triggers, delete it: an unused config costs context and
+misleads. List every reason with `grep -rn "reason:" plugins/`.
