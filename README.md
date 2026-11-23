@@ -109,6 +109,13 @@ Specialized agents for different tasks:
 - `github-actions-workflow-engineer` - Create/fix GitHub Actions workflows
 - `kubernetes-engineer` - Create/troubleshoot K8s resources
 
+## Templates
+
+`plugins/michael-config/templates/claude-config/` has a template for each kind of
+config (skill, rule, agent, command, hook). Each has a `reason` field saying why the
+config was created, so it can be reviewed later.
+See its `README.md`.
+
 ## Design Workflow
 
 For larger features, follow this sequence:
